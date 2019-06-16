@@ -53,16 +53,6 @@ const registration = (req, res) => {
             } else {
                 res.status(208).json({ message: "User with this email exist!" });
             }
-            // if (!user) {
-            //     res.status(401).json({ message: 'User does not exist!' });
-            // }
-
-            // const isValid = bCrypt.compareSync(password, user.password);
-            // if (isValid) {
-            //    updateTokens(user._id).then(tokens => res.json(tokens));
-            // } else {
-            //     res.status(401).json({ message: 'Invalid credentials!' });
-            // }
         })
         .catch(err => res.status(500).json({ message: err.message }));
 };
