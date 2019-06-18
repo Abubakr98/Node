@@ -6,7 +6,7 @@ const config = require('./config');
 
 const app = express(); 
 config.express(app);
-config.routes(app)
+config.routes(app);
 
 const {mongoUri, appPort} = config.app;
 mongoose.connect(mongoUri, { useNewUrlParser: true })
