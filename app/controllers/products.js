@@ -17,7 +17,7 @@ const getAllJSon = (req, res) => {
         .catch(err => res.status(500).json(err));
 };
 const getById = (req, res) => {
-    Product.findOne({ id: +req.params.id })
+    Product.findOne({ product_id: +req.params.id })
         .exec()
         .then(products => {
             res.json(products);
@@ -25,7 +25,7 @@ const getById = (req, res) => {
         .catch(err => res.status(500).json(err));
 };
 const updateOne = (req, res) => {
-     Product.findOneAndUpdate({ id: req.params.id }, req.body)
+     Product.findOneAndUpdate({ product_id: +req.params.id }, req.body)
         .exec()
         .then(product => {
             res.json(product);
@@ -33,7 +33,7 @@ const updateOne = (req, res) => {
         .catch(err => res.status(500).json(err));
 };
 const removeOne = (req, res) => {
-     Product.deleteOne({ _id: req.params.id })
+     Product.deleteOne({ product_id: +req.params.id })
         .exec()
         .then(product => {
             res.json(product);

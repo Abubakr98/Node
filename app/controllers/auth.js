@@ -12,7 +12,6 @@ const updateTokens = (userId) => {
     const accessToken = authHelper.generateAccessToken(userId);
     const refreshToken = authHelper.generateRefreshToken();
 
-
     return authHelper.replaceDbRefreshToken(refreshToken.id, userId)
         .then(() => ({
             accessToken,
@@ -20,25 +19,33 @@ const updateTokens = (userId) => {
         }));
 };
 
+const getUser = (req, res) => {
+    User.findOne({ _id: req.params.id })
+        .exec()
+        .then(user => {
+            res.json(user);
+        })
+        .catch(err => res.status(500).json(err));
+};
+
 const signIn = (req, res) => {
     const { email, password } = req.body;
     User.findOne({ email })
         .exec()
         .then((user) => {
-
             if (!user) {
-                res.status(401).json({ message: 'User does not exist!' });
+                res.status(208).json({ message: 'User does not exist!' });
             }
-
             const isValid = bCrypt.compareSync(password, user.password);
             if (isValid) {
-                updateTokens(user._id).then(tokens => res.json(tokens));
+                updateTokens(user._id).then(tokens => res.json({ ...tokens, userId: user._id, userEmail: user.email }));
             } else {
-                res.status(401).json({ message: 'Invalid credentials!' });
+                res.status(208).json({ message: 'Invalid credentials!' });
             }
         })
         .catch(err => res.status(500).json({ message: err.message }));
 };
+
 const registration = (req, res) => {
     const { email, password } = req.body;
     User.findOne({ email })
@@ -64,34 +71,33 @@ const refreshTokens = (req, res) => {
     try {
         payload = jwt.verify(refreshToken, jwtSecret);
         if (payload.type !== 'refresh') {
-            res.status(400).json({ message: 'Invalid token!' });
+            res.status(400).json({ message: 'Invalid token!1' });
             return;
         }
     } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
-            res.status(400).json({ message: 'Token expired!' });
+            res.status(400).json({ message: 'Refresh token expired!' });
             return;
         } else if (error instanceof jwt.JsonWebTokenError) {
-            res.status(400).json({ message: 'Invalid token!' });
+            res.status(400).json({ message: 'Invalid token!2' });
             return;
         }
     }
-    console.log("----------------------------------------------------------------------");
-    console.log(payload);
-    console.log("----------------------------------------------------------------------");
+
     Token.findOne({ tokenId: payload.id })
         .exec()
         .then((token) => {
-
-
+            console.log(token);
+            
             return updateTokens(token.userId);
         })
         .then(tokens => res.json(tokens))
-        .catch(err => res.status(400).json({ message: err.message }));
+        .catch(err => res.status(400).json({ message: "err.message" }));
 };
 
 module.exports = {
     signIn,
     refreshTokens,
-    registration
+    registration,
+    getUser
 };

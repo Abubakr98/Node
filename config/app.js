@@ -1,16 +1,17 @@
+const pass="mongodb+srv://testmongo:testmongo@cluster0-f98nr.gcp.mongodb.net/test?retryWrites=true"
 module.exports = {
     appPort: 3000,
-    mongoUri: 'mongodb://localhost:27017/online-store',
+    mongoUri: pass,
     jwt: {
         jwtSecret: 'jwtSecret',
         tokens:{
             access: {
                 type: 'access',
-                expiresIn: '2m',
+                expiresIn: '1m',
             },
             refresh: {
                 type: 'refresh',
-                expiresIn: '10m',
+                expiresIn: '2m',
             },
         }
     }
