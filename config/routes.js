@@ -16,26 +16,26 @@ module.exports = (app) => {
 
     //product
     app.get('/',
-        authMiddleWare,
+        // authMiddleWare,
         products.getAll);
     app.get('/products',
-        authMiddleWare,
+        // authMiddleWare,
         products.getAllJSon);
     app.get('/products/:id',
-        authMiddleWare,
+        // authMiddleWare,
         products.getById);
     app.put('/products/:id',
-        authMiddleWare,
+        // authMiddleWare,
         products.updateOne);
     app.delete('/products/:id',
-        authMiddleWare,
+        // authMiddleWare,
         products.removeOne);
     app.post('/products',
-        authMiddleWare,
+        // authMiddleWare,
         products.createOne);
 
     app.get('/user/:id',
-        authMiddleWare,
+        // authMiddleWare,
         auth.getUser);
 
     //auth
