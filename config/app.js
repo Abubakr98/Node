@@ -1,18 +1,18 @@
-const pass="mongodb+srv://testmongo:testmongo@cluster0-f98nr.gcp.mongodb.net/test?retryWrites=true"
+const pass = 'mongodb+srv://testmongo:testmongo@cluster0-f98nr.gcp.mongodb.net/test?retryWrites=true';
 module.exports = {
-    appPort: 3000,
-    mongoUri: pass,
-    jwt: {
-        jwtSecret: 'jwtSecret',
-        tokens:{
-            access: {
-                type: 'access',
-                expiresIn: '1m',
-            },
-            refresh: {
-                type: 'refresh',
-                expiresIn: '2m',
-            },
-        }
-    }
-}
+  appPort: 3000,
+  mongoUri: pass,
+  jwt: {
+    jwtSecret: 'jwtSecret',
+    tokens: {
+      access: {
+        type: 'access',
+        expiresIn: '1m',
+      },
+      refresh: {
+        type: 'refresh',
+        expiresIn: '2m',
+      },
+    },
+  },
+};
