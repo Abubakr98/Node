@@ -46,7 +46,13 @@ const createOne = (req, res) => {
     .catch(err => res.status(500).json(err));
 };
 
+const pageNotFound = (req, res) => {
+  console.log('Page not found!');
+  res.status(404).send('404 - страница не найдена!');
+};
+
 module.exports = {
+  pageNotFound,
   createOne,
   removeOne,
   updateOne,

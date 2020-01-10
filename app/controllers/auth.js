@@ -35,7 +35,16 @@ const getAllUsers = (req, res) => {
     .catch(err => res.status(500).json(err));
 };
 
-const comparePass = (pass, pass2) => pass2 === crypto.scryptSync(pass, jwtSecret, 64).toString('hex');
+// const comparePass = async (pass, pass2) => {
+//   // pass2 === crypto.scryptSync(pass, jwtSecret, 64).toString('hex')
+//   crypto.scrypt(pass, jwtSecret, 64, (err, dk)=>{
+//     if (pass2===dk.toString('hex')) {
+
+//     }else{
+
+//     }
+//   })
+// };
 
 const signIn = (req, res) => {
   const { email, password } = req.body;
@@ -45,13 +54,15 @@ const signIn = (req, res) => {
       if (!user) {
         res.status(208).json({ message: 'User does not exist!' });
       }
-      const isValid = comparePass(password, user.password);
-      if (isValid) {
-        updateTokens(user._id)
-          .then(tokens => res.json({ ...tokens, userId: user._id, userEmail: user.email }));
-      } else {
-        res.status(208).json({ message: 'Invalid credentials!' });
-      }
+      // const isValid = comparePass(password, user.password);
+      crypto.scrypt(password, jwtSecret, 64, (err, dk) => {
+        if (user.password === dk.toString('hex')) {
+          updateTokens(user._id)
+            .then(tokens => res.json({ ...tokens, userId: user._id, userEmail: user.email }));
+        } else {
+          res.status(208).json({ message: 'Invalid credentials!' });
+        }
+      });
     })
     .catch(err => res.status(500).json({ message: err.message }));
 };

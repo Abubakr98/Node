@@ -13,7 +13,6 @@ module.exports = (app) => {
     }
     next();
   });
-
   // product
   app.get('/',
     // authMiddleWare,
