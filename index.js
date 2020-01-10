@@ -12,6 +12,8 @@ config.express(app);
 config.routes(app);
 app.use(express.static(`${__dirname}/public`));
 const { mongoUri, appPort } = config.app;
+mongoose.set('useFindAndModify', false); // здесь даем добро на использовние устревших методов
+mongoose.set('useCreateIndex', true); // здесь даем добро на использовние устревших методов
 mongoose.connect(mongoUri, { useNewUrlParser: true })
   .then(() => {
     app.listen(appPort, () => {

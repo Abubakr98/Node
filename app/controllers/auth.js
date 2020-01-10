@@ -8,6 +8,7 @@ const { jwtSecret } = require('../../config/app').jwt;
 const User = mongoose.model('User');
 const Token = mongoose.model('Token');
 
+
 const updateTokens = (userId) => {
   const accessToken = authHelper.generateAccessToken(userId);
   const refreshToken = authHelper.generateRefreshToken();
@@ -35,17 +36,6 @@ const getAllUsers = (req, res) => {
     .catch(err => res.status(500).json(err));
 };
 
-// const comparePass = async (pass, pass2) => {
-//   // pass2 === crypto.scryptSync(pass, jwtSecret, 64).toString('hex')
-//   crypto.scrypt(pass, jwtSecret, 64, (err, dk)=>{
-//     if (pass2===dk.toString('hex')) {
-
-//     }else{
-
-//     }
-//   })
-// };
-
 const signIn = (req, res) => {
   const { email, password } = req.body;
   User.findOne({ email })
@@ -53,16 +43,16 @@ const signIn = (req, res) => {
     .then((user) => {
       if (!user) {
         res.status(208).json({ message: 'User does not exist!' });
+      } else {
+        crypto.scrypt(password, jwtSecret, 64, (err, dk) => {
+          if (user.password === dk.toString('hex')) {
+            updateTokens(user._id)
+              .then(tokens => res.json({ ...tokens, userId: user._id, userEmail: user.email }));
+          } else {
+            res.status(208).json({ message: 'Invalid credentials!' });
+          }
+        });
       }
-      // const isValid = comparePass(password, user.password);
-      crypto.scrypt(password, jwtSecret, 64, (err, dk) => {
-        if (user.password === dk.toString('hex')) {
-          updateTokens(user._id)
-            .then(tokens => res.json({ ...tokens, userId: user._id, userEmail: user.email }));
-        } else {
-          res.status(208).json({ message: 'Invalid credentials!' });
-        }
-      });
     })
     .catch(err => res.status(500).json({ message: err.message }));
 };
@@ -74,7 +64,7 @@ const registration = (req, res) => {
     .then((user) => {
       if (user === null) {
         crypto.scrypt(password, jwtSecret, 64, (err, hash) => {
-          if (err !== null) {
+          if (err === null) {
             User.create({ email, password: hash.toString('hex') })
               .then(createdUser => res.json(createdUser))
               .catch(error => res.status(500).json(error));
