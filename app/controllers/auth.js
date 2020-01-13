@@ -36,22 +36,45 @@ const getAllUsers = (req, res) => {
     .catch(err => res.status(500).json(err));
 };
 
+const comparePass = (pass, userPass) => {
+  return new Promise((res) => {
+    crypto.scrypt(pass, jwtSecret, 64, (err, dk) => {
+      if (userPass === dk.toString('hex')) {
+        res(true);
+      } else {
+        res(false);
+      }
+    });
+  });
+};
+
 const signIn = (req, res) => {
   const { email, password } = req.body;
   User.findOne({ email })
     .exec()
     .then((user) => {
       if (!user) {
-        res.status(208).json({ message: 'User does not exist!' });
+        res.status(401).json({ message: 'User does not exist!' });
       } else {
-        crypto.scrypt(password, jwtSecret, 64, (err, dk) => {
-          if (user.password === dk.toString('hex')) {
+        comparePass(password, user.password).then((passMatch) => {
+          if (passMatch) {
             updateTokens(user._id)
               .then(tokens => res.json({ ...tokens, userId: user._id, userEmail: user.email }));
           } else {
-            res.status(208).json({ message: 'Invalid credentials!' });
+            res.status(401).json({ message: 'Invalid credentials!' });
           }
+        }).catch((err) => {
+          console.log(err);
         });
+
+        // crypto.scrypt(password, jwtSecret, 64, (err, dk) => {
+        //   if (user.password === dk.toString('hex')) {
+        //     updateTokens(user._id)
+        //       .then(tokens => res.json({ ...tokens, userId: user._id, userEmail: user.email }));
+        //   } else {
+        //     res.status(208).json({ message: 'Invalid credentials!' });
+        //   }
+        // });
       }
     })
     .catch(err => res.status(500).json({ message: err.message }));
@@ -73,7 +96,7 @@ const registration = (req, res) => {
           }
         });
       } else {
-        res.status(208).json({ message: 'User with this email exist!' });
+        res.status(401).json({ message: 'User with this email exist!' });
       }
     })
     .catch(err => res.status(500).json({ message: err.message }));

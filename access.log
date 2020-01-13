@@ -1,0 +1,4 @@
+::1 - - [13/Jan/2020:11:59:05 +0000] "POST /signin HTTP/1.1" 401 34
+::1 - - [13/Jan/2020:11:59:43 +0000] "POST /signin HTTP/1.1" 401 34 "-" "PostmanRuntime/7.21.0"
+::1 - - [13/Jan/2020:11:59:59 +0000] "POST /signin HTTP/1.1" 401 34 "-" "PostmanRuntime/7.21.0"
+::1 - - [13/Jan/2020:12:00:08 +0000] "POST /signin HTTP/1.1" 401 34 "-" "PostmanRuntime/7.21.0"

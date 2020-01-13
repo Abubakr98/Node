@@ -15,6 +15,7 @@
   "rules": {
     "no-extra-semi": "error",
     "linebreak-style": "off",
+    "arrow-body-style": "off",
     "no-underscore-dangle": "off",
     "semi": [2, "always"]
   }

@@ -1,0 +1,60 @@
+Arguments: 
+  /usr/bin/node /usr/share/yarn/bin/yarn.js install
+
+PATH: 
+  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Python27/:/mnt/c/Python27/Scripts:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NGX:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/Git/cmd:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Yarn/bin/:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Users/Abubakr/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Abubakr/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/d/Programs/WebStorm 2019.2/bin:/mnt/c/Users/Abubakr/AppData/Local/Yarn/bin:/mnt/c/Users/Abubakr/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/Abubakr/AppData/Roaming/npm:/snap/bin
+
+Yarn version: 
+  1.17.3
+
+Node version: 
+  12.14.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/abubakr98/.cache/yarn/v4/npm-uri-js-4.2.2-94c540e1ff772956e2299507c010aea6c8838eb0/node_modules/uri-js/.yarn-metadata.json: Unexpected end of JSON input
+      at JSON.parse (<anonymous>)
+      at /usr/share/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/share/yarn/lib/cli.js:304:30)
+      at /usr/share/yarn/lib/cli.js:315:13
+
+npm manifest: 
+  {
+    "name": "node-project",
+    "version": "1.0.0",
+    "description": "my first node app",
+    "main": "index.js",
+    "scripts": {
+      "start": "nodemon index.js",
+      "lint-me": "eslint .",
+      "test": "test"
+    },
+    "author": "Fazilov Abubakr",
+    "license": "ISC",
+    "dependencies": {
+      "body-parser": "^1.19.0",
+      "cors": "^2.8.5",
+      "express": "^4.17.1",
+      "jsonwebtoken": "^8.5.1",
+      "mongoose": "^5.5.12",
+      "mongoose-auto-increment-reworked": "^1.2.1",
+      "morgan": "^1.9.1",
+      "nodemon": "^1.19.1",
+      "swagger-ui-express": "^4.0.6",
+      "uuid": "^3.3.2"
+    },
+    "devDependencies": {
+      "eslint": "^5.16.0",
+      "eslint-config-airbnb-base": "^13.1.0",
+      "eslint-plugin-import": "^2.17.3"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
