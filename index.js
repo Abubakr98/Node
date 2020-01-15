@@ -10,7 +10,8 @@ require('./app/models');
 const config = require('./config');
 
 const app = express();
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(express.static(`${__dirname}/public`));
+app.use('/swagger/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // log only 4xx and 5xx responses to console
 app.use(logger('dev', {
@@ -23,8 +24,11 @@ app.use(logger('combined', {
 }));
 
 config.express(app);
-config.routes(app);
-app.use(express.static(`${__dirname}/public`));
+
+// config.routes(app);
+app.use('/api/v1.0', config.router);
+
+
 const { mongoUri, appPort } = config.app;
 mongoose.set('useFindAndModify', false); // здесь даем добро на использовние устревших методов
 mongoose.set('useCreateIndex', true); // здесь даем добро на использовние устревших методов

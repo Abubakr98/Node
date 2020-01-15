@@ -1,9 +1,9 @@
 const app = require('./app');
 const express = require('./express');
-const routes = require('./routes');
+const router = require('./routes/index');
 
 module.exports = {
   app,
   express,
-  routes,
+  router,
 };
