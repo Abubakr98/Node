@@ -11,6 +11,9 @@ router.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
 
+  console.log(req.hostname);
+
+
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200);
   }

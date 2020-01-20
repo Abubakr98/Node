@@ -10,7 +10,7 @@ require('./app/models');
 const config = require('./config');
 
 const app = express();
-app.use(express.static(`${__dirname}/public`));
+app.use('/api/v1.0', express.static(`${__dirname}/public`));
 app.use('/swagger/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // log only 4xx and 5xx responses to console

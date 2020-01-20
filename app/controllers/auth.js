@@ -2,12 +2,63 @@ const mongoose = require('mongoose');
 // const bCrypt = require("bcrypt");
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const path = require('path');
+const fse = require('fs-extra');
 const authHelper = require('../helpers/authHelper');
 const { jwtSecret } = require('../../config/app').jwt;
 
 const User = mongoose.model('User');
 const Token = mongoose.model('Token');
 
+const uploadFile = (req, res) => {
+  const filedata = req.file;
+  console.log(req.params.id);
+  if (!filedata) {
+    res.send('Ошибка при загрузке файла');
+  } else {
+    res.send('Файл загружен');
+  }
+};
+
+const downloadFile = (req, res) => {
+  const upload = path.join('public', 'uploads');
+  fse.readdir(path.join(upload, req.params.id)).then((files) => {
+    const fileName = files.map((el, i) => {
+      if (el.indexOf('avatar')) {
+        return el;
+      }
+    })[0];
+    const file = path.normalize(`${upload}/${req.params.id}/${fileName}`);
+    res.download(file);
+  });
+};
+
+const getUserAvatar = (req, res) => {
+  const upload = path.join('public', 'uploads');
+  fse.readdir(path.join(upload, req.params.id)).then((files) => {
+    const fileName = files.map((el, i) => {
+      if (el.indexOf('avatar')) {
+        return el;
+      }
+    })[0];
+    const file = path.normalize(`${upload}/${req.params.id}/${fileName}`);
+    fse.readFile(file, 'base64').then((avatar) => {
+      res.json({ userId: 'tobi', avatar });
+    });
+  });
+};
+const getUserAvatarUrl = (req, res) => {
+  const upload = path.join('public', 'uploads');
+  fse.readdir(path.join(upload, req.params.id)).then((files) => {
+    const fileName = files.map((el, i) => {
+      if (el.indexOf('avatar')) {
+        return el;
+      }
+    })[0];
+    const avatar = `uploads/${req.params.id}/${fileName}`;
+    res.json({ userId: 'tobi', avatar });
+  });
+};
 
 const updateTokens = (userId) => {
   const accessToken = authHelper.generateAccessToken(userId);
@@ -129,10 +180,15 @@ const refreshTokens = (req, res) => {
     .catch(err => res.status(400).json({ message: err }));
 };
 
+
 module.exports = {
   signIn,
   refreshTokens,
   registration,
   getAllUsers,
   getUser,
+  uploadFile,
+  downloadFile,
+  getUserAvatar,
+  getUserAvatarUrl,
 };
